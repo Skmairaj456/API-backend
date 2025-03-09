@@ -4,10 +4,11 @@ services:
     env: python
     buildCommand: |
       python -m pip install --upgrade pip
-      pip install --no-cache-dir -r requirements.txt
-    startCommand: "uvicorn main:app --host 0.0.0.0 --port 10000"
+      pip install -r requirements.txt
+    startCommand: "uvicorn main:app --host 0.0.0.0 --port 8000"
     envVars:
       - key: PORT
-        value: "10000"
+        value: "8000"
       - key: PYTHON_VERSION
-        value: "3.8.1"
+        value: "3.11.11"
+
