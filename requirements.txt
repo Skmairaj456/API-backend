@@ -1,6 +1,6 @@
-fastapi
-uvicorn
-transformers
-torch
-ssl
-websockets
+pip --upgrade pip
+fastapi==0.95.2
+uvicorn==0.20.0
+transformers==4.36.2
+torch==2.0.1
+websockets==11.0
