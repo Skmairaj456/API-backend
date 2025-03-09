@@ -1,28 +1,13 @@
-import os
-import subprocess
-
-# Ensure all required packages are installed
-required_packages = ["fastapi", "uvicorn", "transformers", "torch", "ssl", "websockets"]
-for package in required_packages:
-    try:
-        __import__(package)
-    except ImportError:
-        subprocess.run(["pip", "install", package])
-
 from fastapi import FastAPI, WebSocket
 from transformers import pipeline
-import ssl
-
-# Ensure SSL is available
-try:
-    ssl.create_default_context()
-except AttributeError:
-    raise ImportError("SSL module is not available. Ensure your Python installation includes SSL support.")
+import os
 
 app = FastAPI()
 
-# Load AI model (StarCoder for code generation, GPT-4 for general chat)
-ai_model = pipeline("text-generation", model="bigcode/starcoder")
+# Load AI model (Use GPT-2 for testing; StarCoder might be too large for free-tier hosting)
+MODEL_NAME = os.getenv("MODEL_NAME", "gpt2")  # Change this to "bigcode/starcoder" when using a powerful server
+
+ai_model = pipeline("text-generation", model=MODEL_NAME)
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
@@ -33,3 +18,4 @@ async def websocket_endpoint(websocket: WebSocket):
         await websocket.send_text(response)
 
 # Run: uvicorn main:app --host 0.0.0.0 --port 8000
+
